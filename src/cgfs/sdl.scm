@@ -20,6 +20,11 @@
                             "SDL_Init"
                             #:return-type int32
                             #:arg-types (list uint32)))
+(define-public sdl_quit
+  (foreign-library-function SDL2 
+                            "SDL_Quit"
+                            #:return-type void
+                            #:arg-types '()))
 
 (define-public sdl_create_window 
   (foreign-library-function SDL2
@@ -78,6 +83,12 @@
                                                             "SDL_RenderPresent"
                                                             #:return-type void 
                                                             #:arg-types (list '*)))
+
+(define-public sdl_poll_event (foreign-library-function SDL2
+                                                        "SDL_PollEvent"
+                                                        #:return-type int
+                                                        #:arg-types (list '*)))
 (define-public SDL_INIT_VIDEO 20)
 (define-public SDL_PIXELFORMAT_RGBA8888 373694468)
 (define-public SDL_TEXTUREACCESS_STREAMING 1)
+(define-public SDL_QUIT 256)

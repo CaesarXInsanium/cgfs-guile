@@ -34,9 +34,14 @@
          (sdl_window_resizable window_p 0)
          (define texture_p (sdl_create_texture renderer_p SDL_PIXELFORMAT_RGBA8888 SDL_TEXTUREACCESS_STREAMING WIDTH HEIGHT))
          (define pixels (make-bytevector (* 4 WIDTH HEIGHT) 0))
+         (define eventbv (make-bytevector 512 0))
+
          (define stop #f)
          (while (not stop)
                 (begin (display "Loop!\n")
+                       (while (not (= 0 (sdl_poll_event (bytevector->pointer eventbv))))
+                              (begin (if (= (bytevector-u32-ref eventbv 0 (native-endianness) ) SDL_QUIT)
+                                         (set! stop #t))))
                        (draw window_p renderer_p texture_p pixels)))
          
          (sdl_quit)))

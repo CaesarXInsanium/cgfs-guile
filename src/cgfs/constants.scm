@@ -1,7 +1,11 @@
 (define-module (cgfs constants))
 
-(use-modules (system foreign))
-(use-modules (system foreign-library))
+(use-modules (cgfs vec)
+             (cgfs math)
+             (cgfs pixel))
+
+(use-modules (system foreign)
+             (system foreign-library))
 
 (define-public WIDTH 800)
 (define-public HEIGHT 600)

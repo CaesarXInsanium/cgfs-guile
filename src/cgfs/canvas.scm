@@ -23,3 +23,8 @@
   (let ((coords (cnv->scr (cons x y)))
         (pixel (vec->pixel color)))
     (set-pixel! screen (car coords) (cdr coords) pixel)))
+
+(define-public (canvas->view coord)
+  (let ((x (* (car coord) (/ VPWIDTH WIDTH)))
+        (y (* (cdr coord) (/ VPHEIGHT HEIGHT))))
+    (cons x y)))

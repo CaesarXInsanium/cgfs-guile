@@ -1,7 +1,11 @@
 (define-module (cgfs vec))
 
 (use-modules (cgfs math)
-             (cgfs pixel))
+             (cgfs pixel)
+             (cgfs constants)
+             (cgfs camera)
+             (cgfs viewport))
+
 
 (define-public (vecx vc)
   (vector-ref vc 0))
@@ -67,9 +71,10 @@
               (* (vecy v) (vecx w)))))
     (make-vec3 x y z)))
 
+;; get distance between two points
+(define-public (vdist v w)
+  (vnorm (vsub w v)))
 
-(define-public (vcross v w)
-  (make-vec3))
 
 (define-public (make-color r g b)
   (make-vec3 r g b))

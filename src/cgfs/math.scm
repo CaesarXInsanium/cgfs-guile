@@ -1,5 +1,9 @@
 (define-module (cgfs math))
-(use-modules (cgfs constants))
+
+(use-modules (cgfs constants)
+             (cgfs vec)
+             (cgfs viewport))
+
 (define nil '())
 
 (define-public (clamp x) 
@@ -20,3 +24,5 @@
   (if (> low (- high 1))
       nil
       (cons low (enumurate-interval (+ low 1) high))))
+
+(define-public (square x) (* x x))

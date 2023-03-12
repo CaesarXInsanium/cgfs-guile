@@ -22,6 +22,10 @@
   (sdl_render_copy renderer_p texture_p NULL NULL)
   (sdl_render_present renderer_p))
 
+(define (put-pixel! pixels x y color)
+  (bytevector-u8-set!))
+
+
 (define (main args)
   (begin (display args)
          (sdl_init 20)

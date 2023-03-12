@@ -5,26 +5,22 @@
 ;; ./run
 
 (use-modules (cgfs sdl))
+(use-modules (cgfs pixel))
+(use-modules (cgfs canvas))
+(use-modules (cgfs constants))
 
 (use-modules (system foreign-library))
 (use-modules (system foreign))
-
 (use-modules (rnrs bytevectors))
+
 (use-modules (ice-9 iconv))
 
-(define WIDTH 800)
-(define HEIGHT 600)
-(define NULL %null-pointer)
 
 (define (draw window_p renderer_p texture_p pixels)
   (sdl_render_clear renderer_p)
   (sdl_update_texture texture_p NULL (bytevector->pointer pixels) (* WIDTH 4))
   (sdl_render_copy renderer_p texture_p NULL NULL)
   (sdl_render_present renderer_p))
-
-(define (put-pixel! pixels x y color)
-  (bytevector-u8-set!))
-
 
 (define (main args)
   (begin (display args)
@@ -46,6 +42,7 @@
                        (while (not (= 0 (sdl_poll_event (bytevector->pointer eventbv))))
                               (begin (if (= (bytevector-u32-ref eventbv 0 (native-endianness) ) SDL_QUIT)
                                          (set! stop #t))))
+                       (set-pixel! pixels 3 3 (byte->u32 (make-pixel 1 2 3)))
                        (draw window_p renderer_p texture_p pixels)))
          
          (sdl_quit)))

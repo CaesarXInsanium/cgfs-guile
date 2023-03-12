@@ -1,0 +1,5 @@
+#! /bin/sh
+
+export GUILE_LOAD_PATH=src
+
+GUILE_LOAD_PATH=src ./src/main.scm

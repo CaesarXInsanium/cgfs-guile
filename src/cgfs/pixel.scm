@@ -5,6 +5,8 @@
 (use-modules (rnrs bytevectors))
 
 (use-modules (cgfs constants))
+(use-modules (cgfs vec))
+(use-modules (cgfs math))
 
 
 (define-public WHITE (let ((bv (make-bytevector PIXEL_SIZE 0)))
@@ -27,3 +29,4 @@
   (let ((bv (make-bytevector PIXEL_SIZE 0)))
     (begin (bytevector-u32-set! bv 0 val (native-endianness))
            bv)))
+

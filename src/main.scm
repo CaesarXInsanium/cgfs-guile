@@ -8,6 +8,9 @@
 (use-modules (cgfs pixel))
 (use-modules (cgfs canvas))
 (use-modules (cgfs constants))
+(use-modules (cgfs vec))
+(use-modules (cgfs math))
+(use-modules (ice-9 threads))
 
 (use-modules (system foreign-library))
 (use-modules (system foreign))
@@ -38,11 +41,20 @@
 
          (define stop #f)
          (while (not stop)
-                (begin (display "Loop!\n")
-                       (while (not (= 0 (sdl_poll_event (bytevector->pointer eventbv))))
-                              (begin (if (= (bytevector-u32-ref eventbv 0 (native-endianness) ) SDL_QUIT)
-                                         (set! stop #t))))
-                       (set-pixel! pixels 3 3 (byte->u32 (make-pixel 1 2 3)))
-                       (draw window_p renderer_p texture_p pixels)))
+                (begin 
+                  (while (not (= 0 (sdl_poll_event (bytevector->pointer eventbv))))
+                         (begin (if (= (bytevector-u32-ref eventbv 0 (native-endianness)) SDL_QUIT)
+                                    (set! stop #t))))
+
+                  (clear-screen! pixels)
+                  (set-pixel! pixels 0 0 (make-pixel 100 0 0))
+                  (put-pixel! pixels 0 0 (make-color 555 0 100))
+                  (set-pixel! pixels 123 321 (make-pixel 20 200 120))
+                  (par-map (lambda (x) 
+                             (map (lambda (y)
+                                    (set-pixel! pixels x y (make-pixel (clamp x) (clamp y) (random 255))))
+                                  (enumurate-interval 0 HEIGHT))) 
+                       (enumurate-interval 0 WIDTH))
+                  (draw window_p renderer_p texture_p pixels)))
          
          (sdl_quit)))

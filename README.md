@@ -17,3 +17,7 @@ dialect known as GNU Guile.
 - GNU Guile Manual
 - Stack Overflow
 - Scheme Language Referance
+
+## Progress
+
+[First Progress Report](./Images/cgfscircle.png)

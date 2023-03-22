@@ -4,8 +4,6 @@
              (cgfs vec)
              (cgfs viewport))
 
-(define nil '())
-
 (define-public (clamp x) 
   (if (> x 255)
       255
@@ -22,7 +20,13 @@
 
 (define-public (enumurate-interval low high)
   (if (> low (- high 1))
-      nil
+      NIL
       (cons low (enumurate-interval (+ low 1) high))))
 
 (define-public (square x) (* x x))
+
+(define-public (inrange x a b)
+  (and (>= x a) (< x b)))
+
+(define-public (neg x)
+  (- 0 x))

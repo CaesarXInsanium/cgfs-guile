@@ -1,8 +1,8 @@
 (define-module (cgfs vec))
 
 (use-modules (cgfs math)
-             (cgfs pixel)
              (cgfs constants)
+             (cgfs pixel)
              (cgfs camera)
              (cgfs viewport))
 
@@ -45,6 +45,13 @@
              (- (vecy v) (vecy w))
              (- (vecz v) (vecz w))))
 
+(define-public (vadds v s)
+  (make-vec3 (+ (vecx v) s)
+             (+ (vecy v) s)
+             (+ (vecz v) s)))
+(define-public (vsubs v s)
+  (vadds v (- 0 s)))
+
 (define-public (vscale v x)
   (make-vec3 (* (vecx v) x)
              (* (vecy v) x)
@@ -77,7 +84,7 @@
 
 
 (define-public (make-color r g b)
-  (make-vec3 r g b))
+  (make-vec3 (clamp r) (clamp g) (clamp b)))
 
 (define-public (vec->pixel color)
   (make-pixel (clamp (round (vecx color)))

@@ -10,12 +10,12 @@
 (define-record-type camera
   (make-camera pos up at)
   camera?
-  (pos cam-pos)
-  (up cam-up)
-  (at cam-at))
+  (pos camera-pos)
+  (up camera-up)
+  (at camera-at))
 
 (export make-camera
         camera?
-        cam-pos
-        cam-up
-        cam-at)
+        camera-pos
+        camera-up
+        camera-at)

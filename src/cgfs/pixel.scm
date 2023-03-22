@@ -4,12 +4,13 @@
 (use-modules (system foreign))
 (use-modules (rnrs bytevectors))
 
-(use-modules (cgfs constants))
-(use-modules (cgfs vec))
-(use-modules (cgfs math))
+(use-modules (cgfs constants)
+             (cgfs vec))
 
 
-(define-public WHITE (let ((bv (make-bytevector PIXEL_SIZE 0)))
+
+;; return PIXEL_SIZE
+(define-public WHITE (let ((bv (make-bytevector 4 0)))
                        (begin (bytevector-u8-set! bv 3 255)
                               bv)))
 
@@ -20,13 +21,3 @@
            (bytevector-u8-set! br 1 g)
            (bytevector-u8-set! br 2 b)
            br)))
-
-;; return integer value of bytevector 
-(define-public (byte->u32 bv)
-  (bytevector-u32-ref bv 0 (native-endianness)))
-
-(define-public (u32->byte val)
-  (let ((bv (make-bytevector PIXEL_SIZE 0)))
-    (begin (bytevector-u32-set! bv 0 val (native-endianness))
-           bv)))
-

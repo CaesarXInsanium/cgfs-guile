@@ -17,7 +17,7 @@
     (bytevector-copy! pixelbv 0 pixelsbv index PIXEL_SIZE)))
 
 (define-public (clear-screen! screenbv)
-  (bytevector-fill! screenbv 1))
+  (bytevector-fill! screenbv 0))
 
 (define-public (put-pixel! screen x y color)
   (let ((coords (cnv->scr (cons x y)))

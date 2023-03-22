@@ -3,13 +3,19 @@
 
 ;; run with the run script
 ;; ./run
+(use-modules (cgfs constants)
+             (cgfs pixel)
+             (cgfs vec)
+             (cgfs viewport)
+             (cgfs sphere)
+             (cgfs math)
+             (cgfs vec)
+             (cgfs sdl)
+             (cgfs canvas)
+             (cgfs math)
+             (cgfs ray)
+             (cgfs camera))
 
-(use-modules (cgfs sdl))
-(use-modules (cgfs pixel))
-(use-modules (cgfs canvas))
-(use-modules (cgfs constants))
-(use-modules (cgfs vec))
-(use-modules (cgfs math))
 (use-modules (ice-9 threads))
 
 (use-modules (system foreign-library))
@@ -36,8 +42,23 @@
          (sdl_set_int_scale renderer_p 1)
          (sdl_window_resizable window_p 0)
          (define texture_p (sdl_create_texture renderer_p SDL_PIXELFORMAT_RGBA8888 SDL_TEXTUREACCESS_STREAMING WIDTH HEIGHT))
-         (define pixels (make-bytevector (* 4 WIDTH HEIGHT) 0))
+         (define pixels (make-bytevector (* PIXEL_SIZE WIDTH HEIGHT) 0))
          (define eventbv (make-bytevector 512 0))
+
+         (define camera (make-camera (make-vec3 0 0 0)
+                                     (make-vec3 0 0 1)
+                                     (make-vec3 0 1 0)))
+         (define viewport (make-viewport 1 1 1))
+
+         (define spheres (list (make-sphere 1
+                                            (make-vec3 0 -1 3)
+                                            (make-color 255 0 0))
+                               (make-sphere 1
+                                            (make-vec3 2 0 4)
+                                            (make-color 0 0 255))
+                               (make-sphere 1
+                                            (make-vec3 -2 0 4)
+                                            (make-color 0 255 0))))
 
          (define stop #f)
          (while (not stop)
@@ -47,14 +68,19 @@
                                     (set! stop #t))))
 
                   (clear-screen! pixels)
-                  (set-pixel! pixels 0 0 (make-pixel 100 0 0))
-                  (put-pixel! pixels 0 0 (make-color 555 0 100))
-                  (set-pixel! pixels 123 321 (make-pixel 20 200 120))
-                  (par-map (lambda (x) 
-                             (map (lambda (y)
-                                    (set-pixel! pixels x y (make-pixel (clamp x) (clamp y) (random 255))))
-                                  (enumurate-interval 0 HEIGHT))) 
-                       (enumurate-interval 0 WIDTH))
+                  (par-for-each (lambda (x) 
+                                  (map (lambda (y)
+                                         (let ((d (canvas->vpcoord WIDTH HEIGHT viewport (cons x y))))
+                                           (set-pixel! pixels 
+                                                       x 
+                                                       y 
+                                                       (vec->pixel (trace-ray spheres 
+                                                                              (camera-pos camera) 
+                                                                              d 
+                                                                              0 
+                                                                              (inf))))))
+                                       (enumurate-interval 0 HEIGHT))) 
+                            (enumurate-interval 0 WIDTH))
                   (draw window_p renderer_p texture_p pixels)))
          
          (sdl_quit)))

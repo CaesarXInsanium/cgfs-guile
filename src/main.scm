@@ -1,4 +1,4 @@
-#!/usr/bin/env -S guile -e main -s
+#!/usr/bin/env -S guile --no-auto-compile -e main -s
 !#
 
 ;; run with the run script
@@ -46,19 +46,19 @@
          (define eventbv (make-bytevector 512 0))
 
          (define camera (make-camera (make-vec3 0 0 0)
-                                     (make-vec3 0 0 1)
-                                     (make-vec3 0 1 0)))
+                                     (make-vec3 0 1 0)
+                                     (make-vec3 0 0 1)))
          (define viewport (make-viewport 1 1 1))
 
          (define spheres (list (make-sphere 1
                                             (make-vec3 0 -1 3)
-                                            (make-color 255 0 0))
-                               (make-sphere 1
-                                            (make-vec3 2 0 4)
-                                            (make-color 0 0 255))
-                               (make-sphere 1
-                                            (make-vec3 -2 0 4)
-                                            (make-color 0 255 0))))
+                                            (make-color 128 0 0))))
+         ;; (make-sphere 1
+         ;;              (make-vec3 2 0 4)
+         ;;              (make-color 0 0 255))
+         ;; (make-sphere 1
+         ;;              (make-vec3 -2 0 4)
+         ;;              (make-color 0 255 0))))
 
          (define stop #f)
          (while (not stop)
@@ -67,20 +67,20 @@
                          (begin (if (= (bytevector-u32-ref eventbv 0 (native-endianness)) SDL_QUIT)
                                     (set! stop #t))))
 
-                  (clear-screen! pixels)
                   (par-for-each (lambda (x) 
-                                  (map (lambda (y)
-                                         (let ((d (canvas->vpcoord WIDTH HEIGHT viewport (cons x y))))
-                                           (set-pixel! pixels 
-                                                       x 
-                                                       y 
-                                                       (vec->pixel (trace-ray spheres 
-                                                                              (camera-pos camera) 
-                                                                              d 
-                                                                              0 
-                                                                              (inf))))))
-                                       (enumurate-interval 0 HEIGHT))) 
-                            (enumurate-interval 0 WIDTH))
+                                  (for-each (lambda (y)
+                                              (let ((D (canvas->vpcoord WIDTH HEIGHT viewport (cons x y))))
+                                                (put-pixel! pixels 
+                                                            x 
+                                                            y 
+                                                            (trace-ray spheres 
+                                                                       (camera-pos camera) 
+                                                                       D 
+                                                                       0 
+                                                                       (inf)))))
+                                            (enumurate-interval 0 HEIGHT))) 
+                                (enumurate-interval 0 WIDTH))
+
                   (draw window_p renderer_p texture_p pixels)))
          
          (sdl_quit)))

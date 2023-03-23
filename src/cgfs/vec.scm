@@ -49,8 +49,9 @@
   (make-vec3 (+ (vecx v) s)
              (+ (vecy v) s)
              (+ (vecz v) s)))
+
 (define-public (vsubs v s)
-  (vadds v (- 0 s)))
+  (vadds v (neg s)))
 
 (define-public (vscale v x)
   (make-vec3 (* (vecx v) x)
@@ -64,10 +65,10 @@
 
 (define-public (vangle v w)
   (let ((dot (vdot v w))
-        (vnorm (vnorm v))
-        (wnorm (vnorm w)))
+        (vorm (vnorm v))
+        (worm (vnorm w)))
     (asin (/ dot
-             (* vnorm wnorm)))))
+             (* vorm worm)))))
 
 (define-public (vcross v w)
   (let ((x (- (* (vecy v) (vecz w))
@@ -80,13 +81,18 @@
 
 ;; get distance between two points
 (define-public (vdist v w)
-  (vnorm (vsub w v)))
+  (sqrt (+ (square (- (vecx w)
+                      (vecx v)))
+           (square (- (vecy w)
+                      (vecy v)))
+           (square (- (vecz w)
+                      (vecz v))))))
 
 
 (define-public (make-color r g b)
   (make-vec3 (clamp r) (clamp g) (clamp b)))
 
 (define-public (vec->pixel color)
-  (make-pixel (clamp (round (vecx color)))
-              (clamp (round (vecy color)))
-              (clamp (round (vecz color)))))
+  (make-pixel (clamp (vecx color))
+              (clamp (vecy color))
+              (clamp (vecz color))))

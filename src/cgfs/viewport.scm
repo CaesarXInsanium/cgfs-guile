@@ -24,11 +24,6 @@
                    h))
              (vport-distance vp)))
 
-(define-public (vport-cam-dist vp cam)
-  (vdist (cam-pos cam)
-         (vport-pos vp)))
-
-
 
 (export make-viewport
         viewport?

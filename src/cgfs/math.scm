@@ -26,7 +26,7 @@
 (define-public (square x) (* x x))
 
 (define-public (inrange x a b)
-  (and (>= x a) (< x b)))
+  (and (>= x a) (<= x b)))
 
 (define-public (neg x)
   (- 0 x))

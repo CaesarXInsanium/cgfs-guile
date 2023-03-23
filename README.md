@@ -8,15 +8,17 @@ dialect known as GNU Guile.
 
 - [ ] Get good a scheme
 - [ ] Relearn some computer graphics knowledge
-- [ ] Make use of the GNU Guile Manual
-- [ ] Learn how to dab
+- [x] Make use of the GNU Guile Manual
+- [x] Learn how to dab
 - [ ] Use Scheme for somewhat of a real project
+- [ ] implement the ray tracer
+- [ ] implement to Rasterizer
 
 ## Resources
 
 - GNU Guile Manual
 - Stack Overflow
-- Scheme Language Referance
+- Scheme Language Reference
 
 ## Progress
 

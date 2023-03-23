@@ -9,8 +9,8 @@
 
 (display "This Module is Getting Loaded!\n")
 
-(define-public WIDTH 1000)
-(define-public HEIGHT 900)
+(define-public WIDTH 800)
+(define-public HEIGHT 600)
 (define-public PIXEL_SIZE 4)
 (define-public NULL %null-pointer)
 (define-public NIL '())

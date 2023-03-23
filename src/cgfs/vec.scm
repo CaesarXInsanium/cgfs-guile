@@ -93,6 +93,6 @@
   (make-vec3 (clamp r) (clamp g) (clamp b)))
 
 (define-public (vec->pixel color)
-  (make-pixel (clamp (vecx color))
-              (clamp (vecy color))
-              (clamp (vecz color))))
+  (make-pixel (clamp (round (vecx color)))
+              (clamp (round (vecy color)))
+              (clamp (round (vecz color)))))

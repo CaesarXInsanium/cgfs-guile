@@ -7,8 +7,6 @@
 (use-modules (system foreign)
              (system foreign-library))
 
-(display "This Module is Getting Loaded!\n")
-
 (define-public WIDTH 800)
 (define-public HEIGHT 600)
 (define-public PIXEL_SIZE 4)

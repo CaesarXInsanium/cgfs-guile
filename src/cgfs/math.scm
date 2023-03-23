@@ -19,9 +19,16 @@
            (cdr coord))))
 
 (define-public (enumurate-interval low high)
-  (if (> low (- high 1))
+  (if (>= low high)
       NIL
       (cons low (enumurate-interval (+ low 1) high))))
+
+;; (define (enumurate-interval low high)
+;;   (if (> low (- high 1))
+;;       NIL
+;;       (cons low (enumurate-interval (+ low 1) high))))
+;;
+;; (enumurate-interval -3 3)
 
 (define-public (square x) (* x x))
 
